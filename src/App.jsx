@@ -1,40 +1,30 @@
-import React, { useState, useEffect } from 'react';
-    import { TextField, Typography, Container } from '@mui/material';
+import React, { useState } from 'react';
+    import TodoList from './components/TodoList';
+    import TodoInput from './components/TodoInput';
 
     function App() {
-      const [date, setDate] = useState('');
-      const [dayOfWeek, setDayOfWeek] = useState('');
+      const [todos, setTodos] = useState([]);
 
-      useEffect(() => {
-        if (date) {
-          const selectedDate = new Date(date);
-          const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-          const day = days[selectedDate.getDay()];
-          setDayOfWeek(day);
-        } else {
-          setDayOfWeek('');
-        }
-      }, [date]);
+      const addTodo = (text, deadline) => {
+        setTodos([...todos, { text, deadline, id: Date.now(), completed: false }]);
+      };
+
+      const removeTodo = (id) => {
+        setTodos(todos.filter(todo => todo.id !== id));
+      };
+
+      const updateTodo = (id, newText, newDeadline, completed) => {
+        setTodos(todos.map(todo => (todo.id === id ? { ...todo, text: newText, deadline: newDeadline, completed } : todo)));
+      };
 
       return (
-        <Container maxWidth="sm">
-          <Typography variant="h4" align="center" gutterBottom>
-            Day of the Week
-          </Typography>
-          <TextField
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            fullWidth
-            margin="normal"
-            variant="outlined"
-          />
-          {dayOfWeek && (
-            <Typography variant="h6" align="center" style={{ marginTop: '20px' }}>
-              {dayOfWeek}
-            </Typography>
-          )}
-        </Container>
+        <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+          <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
+            <h1 className="text-2xl font-bold mb-4">Todo App</h1>
+            <TodoInput addTodo={addTodo} />
+            <TodoList todos={todos} removeTodo={removeTodo} updateTodo={updateTodo} />
+          </div>
+        </div>
       );
     }
 
