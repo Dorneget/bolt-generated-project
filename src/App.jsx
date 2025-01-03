@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-    import { TextField, Typography, Container } from '@mui/material';
 
     function App() {
       const [date, setDate] = useState('');
@@ -17,24 +16,15 @@ import React, { useState, useEffect } from 'react';
       }, [date]);
 
       return (
-        <Container maxWidth="sm">
-          <Typography variant="h4" align="center" gutterBottom>
-            Day of the Week
-          </Typography>
-          <TextField
+        <div className="container">
+          <h1>Day of the Week</h1>
+          <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            fullWidth
-            margin="normal"
-            variant="outlined"
           />
-          {dayOfWeek && (
-            <Typography variant="h6" align="center" style={{ marginTop: '20px' }}>
-              {dayOfWeek}
-            </Typography>
-          )}
-        </Container>
+          {dayOfWeek && <div className="result">{dayOfWeek}</div>}
+        </div>
       );
     }
 
